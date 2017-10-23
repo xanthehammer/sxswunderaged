@@ -8,8 +8,7 @@ class ShowcaseDay{
     // object properties
     public $id;
     public $showcaseid;
-    public $day_id;
-    public $name;
+    public $showcasedate;
 
     // constructor with $db as database connection
     public function __construct($db)
@@ -21,10 +20,8 @@ class ShowcaseDay{
     function read(){
 
         // select all query
-        $query = "SELECT scd.id as id, sc.id as showcaseid, sc.name, scd.day_id
-                FROM " . $this->table_name . " scd, SHOWCASE sc
-                WHERE sc.id = scd.showcase_id
-                ORDER BY day_id, sc.name";
+        $query = "SELECT id, showcase_id as showcaseid, showcasedate
+                FROM " . $this->table_name;
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);

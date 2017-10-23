@@ -43,7 +43,7 @@ class Showcase{
     function readOne(){
 
         $query = "SELECT
-                sc.id, sc.name, sc.date_start, sc.date_end, l.name as location, sc.url, sc.all_ages, sc.description
+                sc.id, sc.name, sc.date_start, sc.date_end, d.l.name as location, sc.url, sc.all_ages, sc.description
                 FROM " . $this->table_name . " sc, LOCATION l
                 WHERE sc.location = l.id
                 AND sc.id = ?";

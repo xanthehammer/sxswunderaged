@@ -5,25 +5,28 @@ header("Content-Type: application/json; charset=UTF-8");
 
 // include database and object files
 include_once '../config/database.php';
-include_once '../objects/showcaseday.php';
+include_once '../objects/artistshow.php';
 
 // instantiate database and showcase object
 $database = new Database();
 $db = $database->getConnection();
 
 // initialize object
-$showcaseday = new ShowcaseDay($db);
+$artistshow = new ArtistShow($db);
+
+// set ID property of showcase
+$artistshow->showcaseid = ($_GET['id']);
 
 // query showcases
-$stmt = $showcaseday->read();
+$stmt = $artistshow->read();
 $num = $stmt->rowCount();
 
 // check if more than 0 record found
 if($num>0){
 
     // showcase array
-    $showcasedayArr = array();
-    $showcasedayArr["records"]=array();
+    $artistShowArr = array();
+    $artistShowArr["records"]=array();
 
     // retrieve our table contents
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -32,16 +35,20 @@ if($num>0){
         // just $name only
         extract($row);
 
-        $showcasedayItem=array(
+        $artistShowItem=array(
             "id" => $id,
+            "showcasedate" => $showcasedate,
             "showcaseid" => $showcaseid,
-            "day_id" => $showcasedate
+            "artistid" => $artistid,
+            "artistname" => $artistname,
+            "starttime" => $starttime,
+            "notes" => $notes
         );
 
-        array_push($showcasedayArr["records"], $showcasedayItem);
+        array_push($artistShowArr["records"], $artistShowItem);
     }
 
-    echo json_encode($showcasedayArr);
+    echo json_encode($artistShowArr);
 }
 
 else{
